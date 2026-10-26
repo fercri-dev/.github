@@ -1,0 +1,21 @@
+name: Mejora
+description: Una función nueva o un cambio en algo que ya existe.
+labels: ["mejora"]
+body:
+  - type: textarea
+    id: que
+    attributes:
+      label: Qué quieres
+    validations:
+      required: true
+  - type: textarea
+    id: porque
+    attributes:
+      label: Para qué
+      description: El problema que resuelve o lo que permite hacer.
+    validations:
+      required: true
+  - type: textarea
+    id: notas
+    attributes:
+      label: Ideas o alternativas
