@@ -1,0 +1,63 @@
+name: Hallazgo de auditoría
+description: Un problema concreto detectado en una auditoría (Thermos, antislop, accesibilidad...).
+title: "[Auditoría] "
+labels: ["auditoria"]
+body:
+  - type: input
+    id: auditoria
+    attributes:
+      label: Auditoría de origen
+      description: Nombre y enlace al informe.
+      placeholder: Thermos 2026-10-26 · https://claude.ai/artifact/...
+    validations:
+      required: true
+  - type: dropdown
+    id: severidad
+    attributes:
+      label: Severidad
+      options:
+        - Crítica
+        - Alta
+        - Media
+        - Baja
+    validations:
+      required: true
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo
+      options:
+        - Fallo
+        - Seguridad
+        - Mantenibilidad
+        - Accesibilidad
+        - Rendimiento
+        - Otro
+    validations:
+      required: true
+  - type: input
+    id: ubicacion
+    attributes:
+      label: Archivo y línea
+      placeholder: src/app.js:42
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qué falla
+      description: El problema en una o dos frases.
+    validations:
+      required: true
+  - type: textarea
+    id: escenario
+    attributes:
+      label: Cuándo se nota
+      description: Datos o situación concreta que provoca el fallo y qué pasa entonces.
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Cómo arreglarlo
+  - type: input
+    id: relacionados
+    attributes:
+      label: PRs o issues relacionados
+      placeholder: "#19, #20"
