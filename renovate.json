@@ -1,7 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["local>fercri-dev/renovate-config"],
+  "baseBranchPatterns": ["main"],
   "packageRules": [
+    {
+      "description": "This repository has no dev branch, so minor and major updates go to main too",
+      "matchBaseBranches": ["main"],
+      "matchUpdateTypes": ["minor", "major"],
+      "enabled": true
+    },
     {
       "description": "conventional-changelog-conventionalcommits 10 needs conventional-changelog-writer 9, and semantic-release 25 still ships 8",
       "matchFileNames": ["release/package.json"],
