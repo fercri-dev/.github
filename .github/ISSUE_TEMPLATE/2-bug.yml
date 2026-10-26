@@ -1,37 +1,37 @@
-name: Error
-description: Algo no funciona como debería.
-labels: ["error"]
+name: Bug
+description: Something does not work as it should.
+labels: ["bug"]
 body:
   - type: textarea
-    id: que-pasa
+    id: what-happens
     attributes:
-      label: Qué pasa
+      label: What happens
     validations:
       required: true
   - type: textarea
-    id: esperado
+    id: expected
     attributes:
-      label: Qué esperabas que pasara
+      label: What you expected to happen
     validations:
       required: true
   - type: textarea
-    id: pasos
+    id: steps
     attributes:
-      label: Pasos para reproducirlo
+      label: Steps to reproduce
       placeholder: |
-        1. Abre ...
-        2. Pulsa ...
+        1. Open ...
+        2. Click ...
   - type: dropdown
-    id: entorno
+    id: environment
     attributes:
-      label: Entorno
+      label: Environment
       options:
         - dev
-        - Producción
+        - Production
         - Local
     validations:
       required: true
   - type: textarea
     id: extra
     attributes:
-      label: Capturas o registros
+      label: Screenshots or logs

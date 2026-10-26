@@ -20,10 +20,10 @@ const result = preview
 
 if (preview) {
   const body = result
-    ? `**Al fusionar se publica la versión ${result.nextRelease.version}**` +
-      (result.lastRelease.version ? ` (ahora es la ${result.lastRelease.version}).` : ".") +
+    ? `**Merging publishes version ${result.nextRelease.version}**` +
+      (result.lastRelease.version ? ` (currently ${result.lastRelease.version}).` : ".") +
       `\n\n${result.nextRelease.notes}`
-    : "**Al fusionar no se publica versión nueva:** no entra ningún feat, fix, perf ni content.";
+    : "**Merging publishes no new version:** there is no feat, fix, perf or content commit.";
   writeFileSync(previewFile, `${body}\n`);
 } else if (result && process.env.GITHUB_OUTPUT) {
   appendFileSync(process.env.GITHUB_OUTPUT, `version=${result.nextRelease.version}\n`);
