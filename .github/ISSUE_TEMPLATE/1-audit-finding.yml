@@ -1,0 +1,63 @@
+name: Audit finding
+description: A specific problem found in an audit (Thermos, antislop, accessibility...).
+title: "[Audit] "
+labels: ["audit"]
+body:
+  - type: input
+    id: audit
+    attributes:
+      label: Source audit
+      description: Name of the report and a link to it.
+      placeholder: Thermos 2026-10-26 · https://claude.ai/artifact/...
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - Bug
+        - Security
+        - Maintainability
+        - Accessibility
+        - Performance
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: File and line
+      placeholder: src/app.js:42
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: The problem in one or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: scenario
+    attributes:
+      label: When it shows
+      description: The data or situation that triggers the problem, and what happens then.
+  - type: textarea
+    id: proposal
+    attributes:
+      label: How to fix it
+  - type: input
+    id: related
+    attributes:
+      label: Related PRs or issues
+      placeholder: "#19, #20"

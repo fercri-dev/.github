@@ -1,0 +1,21 @@
+name: Enhancement
+description: A new feature or a change to something that already exists.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What you want
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What for
+      description: The problem it solves or what it makes possible.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Ideas or alternatives
