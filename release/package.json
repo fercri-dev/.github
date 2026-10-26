@@ -1,0 +1,9 @@
+{
+  "name": "release",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "conventional-changelog-conventionalcommits": "9.3.1",
+    "semantic-release": "25.0.9"
+  }
+}
