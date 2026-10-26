@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>fercri-dev/renovate-config"],
+  "packageRules": [
+    {
+      "description": "conventional-changelog-conventionalcommits 10 needs conventional-changelog-writer 9, and semantic-release 25 still ships 8",
+      "matchFileNames": ["release/package.json"],
+      "matchPackageNames": ["conventional-changelog-conventionalcommits"],
+      "allowedVersions": "<10"
+    }
+  ]
+}

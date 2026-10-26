@@ -1,0 +1,48 @@
+name: Release preview
+
+# Reusable: each repository calls it on every pull request to main. It comments on the pull request the version and
+# notes that merging it will publish.
+on:
+  workflow_call:
+
+jobs:
+  preview:
+    # Pull requests from forks get a read-only token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: repo
+          fetch-depth: 0
+      - uses: actions/checkout@v7
+        with:
+          repository: fercri-dev/.github
+          path: tooling
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: tooling/release/package-lock.json
+      - run: npm ci --prefix tooling/release
+      # The checkout is main with this pull request merged; naming it main makes semantic-release analyse it.
+      - working-directory: repo
+        run: git checkout -B main
+      - working-directory: repo
+        run: node ../tooling/release/run.mjs --preview "$RUNNER_TEMP/preview.md"
+      - name: Comment on the pull request
+        run: |
+          marker="<!-- release-preview -->"
+          printf '%s\n\n' "$marker" | cat - "$RUNNER_TEMP/preview.md" > "$RUNNER_TEMP/comment.md"
+          cat "$RUNNER_TEMP/preview.md" >> "$GITHUB_STEP_SUMMARY"
+          id=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+            --jq "[.[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"$marker\")))][0].id // empty" | head -1)
+          if [ -n "$id" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F "body=@$RUNNER_TEMP/comment.md" > /dev/null
+          else
+            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"
+          fi

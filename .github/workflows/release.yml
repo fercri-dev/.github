@@ -1,0 +1,38 @@
+name: Release
+
+# Reusable: each repository calls it on every push to main. When the push brings a feat, fix, perf or content commit
+# it tags vX.Y.Z and creates the GitHub release with its notes, and returns the version so the caller can publish
+# an image in the same run (tags pushed with GITHUB_TOKEN do not trigger other workflows).
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: Version just released, empty when nothing was released
+        value: ${{ jobs.release.outputs.version }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: repo
+          fetch-depth: 0
+      - uses: actions/checkout@v7
+        with:
+          repository: fercri-dev/.github
+          path: tooling
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: tooling/release/package-lock.json
+      - run: npm ci --prefix tooling/release
+      - id: release
+        working-directory: repo
+        run: node ../tooling/release/run.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
